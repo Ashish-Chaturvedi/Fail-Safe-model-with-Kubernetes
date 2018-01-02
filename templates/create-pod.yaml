@@ -1,0 +1,22 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: jenkins
+  labels:
+    app: jenkins
+spec:
+  volumes:
+    - name: jenkins-storage
+      persistentVolumeClaim:
+       claimName: per-claim
+  containers:
+    - name: jenkins-container
+      image: mindtreestackdevops/jenkins:v1
+      ports:
+        - containerPort: 8080
+          name: "jenkins-server"
+      volumeMounts:
+        - mountPath: "/var/jenkins_home/"
+          name: jenkins-storage
+  nodeSelector:
+      env: devops-dev
